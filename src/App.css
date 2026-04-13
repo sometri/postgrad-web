@@ -1,0 +1,58 @@
+/* រៀបចំទម្រង់ដើម */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Kantumruy Pro', 'Battambang', sans-serif;
+}
+body {
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+/* តុបតែង Menu (Navbar) */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e3a8a; /* ពណ៌ខៀវចាស់ */
+  padding: 15px 40px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: 0.3s;
+}
+.nav-links a:hover {
+  color: #60a5fa; /* ប្តូរពណ៌ពេលយក Mouse ទៅដាក់ពីលើ */
+}
+
+/* តុបតែងតួទំព័រនីមួយៗ */
+.page-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  margin-top: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.page-container h1 {
+  color: #1e3a8a;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 10px;
+}
