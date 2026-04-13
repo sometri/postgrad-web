@@ -9,7 +9,8 @@ export default function Articles() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/articles')
+    // axios.get('http://localhost:8000/api/articles')
+    axios.get('http://journal.dhammavicaya.cloud/api/articles')
       .then(response => {
         setArticles(response.data);
         setLoading(false);
