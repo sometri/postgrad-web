@@ -12,7 +12,8 @@ export default function Login({ setAuth }) {
     setError('');
     try {
       // បាញ់ទៅសុំកូនសោរពី Laravel
-      const response = await axios.post('http://localhost:8000/api/login', formData);
+      // const response = await axios.post('http://localhost:8000/api/login', formData);
+      const response = await axios.post('https://journal.dhammavicaya.cloud/api/login', formData);
       const token = response.data.token;
       
       // រក្សាទុកកូនសោរក្នុង Browser (Local Storage)
