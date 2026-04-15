@@ -10,7 +10,7 @@ export default function Articles() {
 
   useEffect(() => {
     // axios.get('http://localhost:8000/api/articles')
-    axios.get('http://journal.dhammavicaya.cloud/api/articles')
+    axios.get('https://journal.dhammavicaya.cloud/api/articles')
       .then(response => {
         setArticles(response.data);
         setLoading(false);
@@ -74,7 +74,8 @@ export default function Articles() {
               <div className="bg-gray-50 p-4 border-t border-gray-100 mt-auto">
                 {item.pdf_file ? (
                   <a 
-                    href={`http://localhost:8000/storage/pdfs/${item.pdf_file}`} 
+                    // href={`http://localhost:8000/storage/pdfs/${item.pdf_file}`} 
+                    href={`https://journal.dhammavicaya.cloud/storage/pdfs/${item.pdf_file}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex justify-center items-center w-full bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold py-2.5 px-4 rounded-lg transition-colors duration-300"
