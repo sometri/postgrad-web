@@ -13,7 +13,7 @@ export default function Users() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users');
+      const response = await axios.get('https://journal.dhammavicaya.cloud/api/users');
       setUsers(response.data);
     } catch (error) { console.error("Error:", error); }
   };
@@ -24,11 +24,11 @@ export default function Users() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:8000/api/users/${editingId}`, formData);
+        await axios.put(`https://journal.dhammavicaya.cloud/api/users/${editingId}`, formData);
         alert('✅ កែប្រែគណនីជោគជ័យ!');
         setEditingId(null);
       } else {
-        await axios.post('http://localhost:8000/api/users', formData);
+        await axios.post('https://journal.dhammavicaya.cloud/api/users', formData);
         alert('🎉 បង្កើតគណនីថ្មីជោគជ័យ!');
       }
       fetchUsers();
@@ -48,7 +48,7 @@ export default function Users() {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបគណនីនេះមែនទេ? បុគ្គលិកនេះនឹងលែងអាចចូលប្រព័ន្ធបានទៀតហើយ!")) {
-      await axios.delete(`http://localhost:8000/api/users/${id}`);
+      await axios.delete(`https://journal.dhammavicaya.cloud/api/users/${id}`);
       fetchUsers();
     }
   };

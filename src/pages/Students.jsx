@@ -16,7 +16,7 @@ export default function Students() {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/students');
+      const response = await axios.get('https://journal.dhammavicaya.cloud/api/students');
       setStudents(response.data);
     } catch (error) {
       console.error("មានបញ្ហាក្នុងការទាញទិន្នន័យ:", error);
@@ -38,7 +38,7 @@ export default function Students() {
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
       try {
-        await axios.delete(`http://localhost:8000/api/students/${id}`);
+        await axios.delete(`https://journal.dhammavicaya.cloud/api/students/${id}`);
         alert('🗑️ លុបទិន្នន័យជោគជ័យ!');
         fetchStudents(); // ទាញតារាងថ្មី
       } catch (error) {
@@ -53,12 +53,12 @@ export default function Students() {
     try {
       if (editingId) {
         // បើមាន editingId មានន័យថាជាការ Update
-        await axios.put(`http://localhost:8000/api/students/${editingId}`, formData);
+        await axios.put(`https://journal.dhammavicaya.cloud/api/students/${editingId}`, formData);
         alert('✅ កែប្រែទិន្នន័យជោគជ័យ!');
         setEditingId(null); // លុប Edit Mode ចោលវិញ
       } else {
         // បើអត់មានទេ មានន័យថាជាការបញ្ជូលថ្មី
-        await axios.post('http://localhost:8000/api/students', formData);
+        await axios.post('https://journal.dhammavicaya.cloud/api/students', formData);
         alert('🎉 បញ្ជូលទិន្នន័យជោគជ័យ!');
       }
       

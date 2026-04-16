@@ -19,9 +19,9 @@ export default function Enrollments() {
   const fetchData = async () => {
     try {
       const [enrollRes, studentRes, classRes] = await Promise.all([
-        axios.get('http://localhost:8000/api/enrollments'),
-        axios.get('http://localhost:8000/api/students'),
-        axios.get('http://localhost:8000/api/classes')
+        axios.get('https://journal.dhammavicaya.cloud/api/enrollments'),
+        axios.get('https://journal.dhammavicaya.cloud/api/students'),
+        axios.get('https://journal.dhammavicaya.cloud/api/classes')
       ]);
       setEnrollments(enrollRes.data);
       setStudents(studentRes.data);
@@ -35,11 +35,11 @@ export default function Enrollments() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:8000/api/enrollments/${editingId}`, formData);
+        await axios.put(`https://journal.dhammavicaya.cloud/api/enrollments/${editingId}`, formData);
         alert('✅ កែប្រែជោគជ័យ!');
         setEditingId(null);
       } else {
-        await axios.post('http://localhost:8000/api/enrollments', formData);
+        await axios.post('https://journal.dhammavicaya.cloud/api/enrollments', formData);
         alert('🎉 ចុះឈ្មោះចូលរៀនជោគជ័យ!');
       }
       fetchData();
@@ -60,7 +60,7 @@ export default function Enrollments() {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
-      await axios.delete(`http://localhost:8000/api/enrollments/${id}`);
+      await axios.delete(`https://journal.dhammavicaya.cloud/api/enrollments/${id}`);
       fetchData();
     }
   };

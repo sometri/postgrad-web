@@ -16,9 +16,9 @@ export default function Theses() {
   const fetchData = async () => {
     try {
       const [thesisRes, studentRes, teacherRes] = await Promise.all([
-        axios.get('http://localhost:8000/api/theses'),
-        axios.get('http://localhost:8000/api/students'),
-        axios.get('http://localhost:8000/api/teachers')
+        axios.get('https://journal.dhammavicaya.cloud/api/theses'),
+        axios.get('https://journal.dhammavicaya.cloud/api/students'),
+        axios.get('https://journal.dhammavicaya.cloud/api/teachers')
       ]);
       setTheses(thesisRes.data);
       setStudents(studentRes.data);
@@ -32,11 +32,11 @@ export default function Theses() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:8000/api/theses/${editingId}`, formData);
+        await axios.put(`https://journal.dhammavicaya.cloud/api/theses/${editingId}`, formData);
         alert('✅ កែប្រែទិន្នន័យជោគជ័យ!');
         setEditingId(null);
       } else {
-        await axios.post('http://localhost:8000/api/theses', formData);
+        await axios.post('https://journal.dhammavicaya.cloud/api/theses', formData);
         alert('🎉 បញ្ជូលប្រធានបទស្រាវជ្រាវជោគជ័យ!');
       }
       fetchData();
@@ -60,7 +60,7 @@ export default function Theses() {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
-      await axios.delete(`http://localhost:8000/api/theses/${id}`);
+      await axios.delete(`https://journal.dhammavicaya.cloud/api/theses/${id}`);
       fetchData();
     }
   };

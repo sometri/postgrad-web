@@ -48,7 +48,8 @@ export default function App() {
   }, []);
 
   const handleLogout = async () => {
-    try { await axios.post('http://localhost:8000/api/logout'); } catch (error) {}
+    // try { await axios.post('http://localhost:8000/api/logout'); } catch (error) {}
+    try { await axios.post('https://journal.dhammavicaya.cloud/api/logout'); } catch (error) {}
     localStorage.removeItem('sbu_token');
     delete axios.defaults.headers.common['Authorization'];
     setIsAuthenticated(false);
