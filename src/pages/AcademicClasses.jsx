@@ -13,7 +13,7 @@ export default function AcademicClasses() {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get('https://journal.dhammavicaya.cloud/api/classes');
+      const response = await axios.get('/classes');
       setClasses(response.data);
     } catch (error) { console.error("Error:", error); }
   };
@@ -24,11 +24,11 @@ export default function AcademicClasses() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`https://journal.dhammavicaya.cloud/api/classes/${editingId}`, formData);
+        await axios.put(`/classes/${editingId}`, formData);
         alert('✅ កែប្រែទិន្នន័យជោគជ័យ!');
         setEditingId(null);
       } else {
-        await axios.post('https://journal.dhammavicaya.cloud/api/classes', formData);
+        await axios.post('/classes', formData);
         alert('🎉 បញ្ជូលថ្នាក់រៀនថ្មីជោគជ័យ!');
       }
       fetchClasses();
@@ -44,7 +44,7 @@ export default function AcademicClasses() {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបថ្នាក់រៀននេះមែនទេ?")) {
-      await axios.delete(`https://journal.dhammavicaya.cloud/api/classes/${id}`);
+      await axios.delete(`/classes/${id}`);
       fetchClasses();
     }
   };

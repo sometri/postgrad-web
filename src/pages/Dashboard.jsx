@@ -12,7 +12,7 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get('https://journal.dhammavicaya.cloud/api/dashboard/stats');
+      const response = await axios.get('/dashboard/stats');
       setStats(response.data);
     } catch (error) {
       console.error("មានបញ្ហាក្នុងការទាញទិន្នន័យ Dashboard:", error);

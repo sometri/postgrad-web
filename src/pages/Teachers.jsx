@@ -14,7 +14,7 @@ export default function Teachers() {
 
   const fetchTeachers = async () => {
     try {
-      const response = await axios.get('https://journal.dhammavicaya.cloud/api/teachers');
+      const response = await axios.get('/teachers');
       setTeachers(response.data);
     } catch (error) { console.error("Error:", error); }
   };
@@ -41,11 +41,11 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     try {
     if (editingId) {
-        await axios.put(`https://journal.dhammavicaya.cloud/api/teachers/${editingId}`, formData);
+        await axios.put(`/teachers/${editingId}`, formData);
         alert('✅ កែប្រែទិន្នន័យជោគជ័យ!');
         setEditingId(null);
     } else {
-        await axios.post('https://journal.dhammavicaya.cloud/api/teachers', formData);
+        await axios.post('/teachers', formData);
         alert('🎉 បញ្ជូលទិន្នន័យជោគជ័យ!');
     }
     fetchTeachers();
@@ -70,7 +70,7 @@ const handleSubmit = async (e) => {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបទិន្នន័យនេះមែនទេ?")) {
-      await axios.delete(`https://journal.dhammavicaya.cloud/api/teachers/${id}`);
+      await axios.delete(`/teachers/${id}`);
       fetchTeachers();
     }
   };

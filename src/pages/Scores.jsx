@@ -16,9 +16,9 @@ export default function Scores() {
   const fetchData = async () => {
     try {
       const [scoreRes, studentRes, classRes] = await Promise.all([
-        axios.get('https://journal.dhammavicaya.cloud/api/scores'),
-        axios.get('https://journal.dhammavicaya.cloud/api/students'),
-        axios.get('https://journal.dhammavicaya.cloud/api/classes')
+        axios.get('/scores'),
+        axios.get('/students'),
+        axios.get('/classes')
       ]);
       setScoresList(scoreRes.data);
       setStudents(studentRes.data);
@@ -32,11 +32,11 @@ export default function Scores() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`https://journal.dhammavicaya.cloud/api/scores/${editingId}`, formData);
+        await axios.put(`/scores/${editingId}`, formData);
         alert('✅ កែប្រែពិន្ទុជោគជ័យ!');
         setEditingId(null);
       } else {
-        await axios.post('https://journal.dhammavicaya.cloud/api/scores', formData);
+        await axios.post('/scores', formData);
         alert('🎉 បញ្ចូលពិន្ទុជោគជ័យ!');
       }
       fetchData();
@@ -58,7 +58,7 @@ export default function Scores() {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបទិន្នន័យពិន្ទុនេះមែនទេ?")) {
-      await axios.delete(`https://journal.dhammavicaya.cloud/api/scores/${id}`);
+      await axios.delete(`/scores/${id}`);
       fetchData();
     }
   };

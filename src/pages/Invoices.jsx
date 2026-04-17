@@ -15,8 +15,8 @@ export default function Invoices() {
   const fetchData = async () => {
     try {
       const [invoiceRes, studentRes] = await Promise.all([
-        axios.get('https://journal.dhammavicaya.cloud/api/invoices'),
-        axios.get('https://journal.dhammavicaya.cloud/api/students')
+        axios.get('/invoices'),
+        axios.get('/students')
       ]);
       setInvoices(invoiceRes.data);
       setStudents(studentRes.data);
@@ -29,11 +29,11 @@ export default function Invoices() {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`https://journal.dhammavicaya.cloud/api/invoices/${editingId}`, formData);
+        await axios.put(`/invoices/${editingId}`, formData);
         alert('✅ កែប្រែទិន្នន័យហិរញ្ញវត្ថុជោគជ័យ!');
         setEditingId(null);
       } else {
-        await axios.post('https://journal.dhammavicaya.cloud/api/invoices', formData);
+        await axios.post('/invoices', formData);
         alert('🎉 បង្កើតវិក្កយបត្រជោគជ័យ!');
       }
       fetchData();
@@ -55,7 +55,7 @@ export default function Invoices() {
 
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ តើអ្នកពិតជាចង់លុបវិក្កយបត្រនេះមែនទេ? ទិន្នន័យលុយនឹងបាត់បង់!")) {
-      await axios.delete(`https://journal.dhammavicaya.cloud/api/invoices/${id}`);
+      await axios.delete(`/invoices/${id}`);
       fetchData();
     }
   };

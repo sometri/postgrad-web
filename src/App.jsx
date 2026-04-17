@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
+// កំណត់ Base URL សម្រាប់ Axios ដោយយកពី .env (វានឹងស្គាល់ដោយស្វ័យប្រវត្តិរវាង Local និង Production)
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+
 // Imports ទំព័រទាំងអស់
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -13,6 +16,9 @@ import Theses from './pages/Theses';
 import Invoices from './pages/Invoices';
 import Scores from './pages/Scores';
 import Users from './pages/Users';
+import RolePermissions from './pages/RolePermissions';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 // មុខងារសម្រាប់ម៉ឺនុយធម្មតា
 const NavItem = ({ to, icon, label }) => {
@@ -30,6 +36,9 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
+  // ទាញយក Role ពីប្រអប់ផ្ទុក (យកមកដាក់ក្នុង Component នេះដើម្បីឱ្យវា Update ថ្មីរាល់ពេល Log In/Out)
+  const userRole = localStorage.getItem('sbu_role');
+
   // State សម្រាប់បញ្ជាការបិទ/បើក Sidebar និង Sub-menus
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [openSubMenus, setOpenSubMenus] = useState({
@@ -48,9 +57,11 @@ export default function App() {
   }, []);
 
   const handleLogout = async () => {
-    // try { await axios.post('http://localhost:8000/api/logout'); } catch (error) {}
-    try { await axios.post('https://journal.dhammavicaya.cloud/api/logout'); } catch (error) {}
+    try { await axios.post(`${API_URL}/logout`); } catch (error) {}
+    
+    // លុបកូនសោរ និងសិទ្ធិចេញពី Browser
     localStorage.removeItem('sbu_token');
+    localStorage.removeItem('sbu_role'); 
     delete axios.defaults.headers.common['Authorization'];
     setIsAuthenticated(false);
   };
@@ -104,16 +115,19 @@ export default function App() {
               </div>
             </div>
 
-            {/* ក្រុមទី ៣៖ ការកំណត់ (Sub-menu) */}
-            <div className="mt-4">
-              <button onClick={() => toggleSubMenu('settings')} className="w-full flex items-center justify-between text-xs font-bold text-blue-400 mb-2 uppercase tracking-wider pl-2 hover:text-blue-300 transition">
-                <span>ការកំណត់ប្រព័ន្ធ</span>
-                <span>{openSubMenus.settings ? '▼' : '▶'}</span>
-              </button>
-              <div className={`overflow-hidden transition-all duration-300 ${openSubMenus.settings ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <NavItem to="/users" icon="⚙️" label="គណនីបុគ្គលិក" />
+            {/* ក្រុមទី ៣៖ ការកំណត់ (បង្ហាញតែ Admin ប៉ុណ្ណោះ) */}
+            {userRole === 'admin' && (
+              <div className="mt-4">
+                <button onClick={() => toggleSubMenu('settings')} className="w-full flex items-center justify-between text-xs font-bold text-blue-400 mb-2 uppercase tracking-wider pl-2 hover:text-blue-300 transition">
+                  <span>ការកំណត់ប្រព័ន្ធ</span>
+                  <span>{openSubMenus.settings ? '▼' : '▶'}</span>
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ${openSubMenus.settings ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <NavItem to="/users" icon="⚙️" label="គណនីបុគ្គលិក" />
+                  <NavItem to="/permissions" icon="🛡️" label="សិទ្ធិប្រើប្រាស់" /> {/* 👈 ថែមជួរនេះ */}
+                </div>
               </div>
-            </div>
+            )}
           </nav>
         </aside>
 
@@ -122,7 +136,7 @@ export default function App() {
           
           <header className="bg-white shadow-sm border-b h-16 flex items-center justify-between px-6 z-10">
             <div className="flex items-center gap-4">
-              {/* ប៊ូតុង Toggle Sidebar (Hamburger Icon) */}
+              {/* ប៊ូតុង Toggle Sidebar */}
               <button 
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
                 className="text-gray-500 hover:text-blue-700 focus:outline-none p-2 rounded-lg hover:bg-blue-50 transition"
@@ -138,8 +152,10 @@ export default function App() {
             
             <div className="flex items-center gap-4">
               <div className="hidden sm:flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
-                <span className="text-xl">👨‍💼</span>
-                <span className="text-blue-900 font-bold text-sm">អ្នកគ្រប់គ្រង</span>
+                <span className="text-xl">{userRole === 'admin' ? '👨‍💻' : '👤'}</span>
+                <span className="text-blue-900 font-bold text-sm">
+                  {userRole === 'admin' ? 'អ្នកគ្រប់គ្រង (Admin)' : 'បុគ្គលិក (Staff)'}
+                </span>
               </div>
               <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-200 flex items-center gap-2">
                 <span>🚪</span> <span className="hidden sm:block">ចាកចេញ</span>
@@ -157,7 +173,14 @@ export default function App() {
               <Route path="/theses" element={<Theses />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/scores" element={<Scores />} />
-              <Route path="/users" element={<Users />} />
+              
+              {/* ការពារ Route /users ជាជាន់ទី ២ បើមិនមែន admin វានឹងរុញចេញ */}
+              {userRole === 'admin' && (
+                <>
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/permissions" element={<RolePermissions />} /> {/* 👈 ថែមជួរនេះ */}
+                </>                 
+              )}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </main>

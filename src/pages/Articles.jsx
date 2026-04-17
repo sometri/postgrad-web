@@ -10,7 +10,7 @@ export default function Articles() {
 
   useEffect(() => {
     // axios.get('http://localhost:8000/api/articles')
-    axios.get('https://journal.dhammavicaya.cloud/api/articles')
+    axios.get('/articles')
       .then(response => {
         setArticles(response.data);
         setLoading(false);
